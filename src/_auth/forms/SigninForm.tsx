@@ -2,8 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form';
 
-
-
 import { useToast } from "@/components/ui/use-toast"
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage,
@@ -31,8 +29,6 @@ const SigninForm = () => {
         password: '',
       },
     })  
-
-
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof SigninValidation>) {

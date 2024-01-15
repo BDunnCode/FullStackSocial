@@ -59,8 +59,9 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    // localStorage.getItem('cookieFallback') === null
     if(
+      // Below is going to redirect me to sign-in everytime until it's working, and I want to work on the Home Page / RootLayout right now.
+      // localStorage.getItem('cookieFallback') === null ||
       localStorage.getItem('cookieFallback') === '[]' 
     ) navigate('/sign-in')
 
