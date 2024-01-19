@@ -1,6 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
+import { useNavigate } from "react-router-dom"
+
 
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form"
@@ -12,6 +14,7 @@ import { Models } from "appwrite"
 import { useCreatePost } from "@/lib/react-query/queriesAndMutations"
 import { UserRoundIcon } from "lucide-react"
 import { useUserContext } from "@/context/AuthContext"
+import { useToast } from "../ui/use-toast"
  
 type PostFormProps = {
   post?: Models.Document;
@@ -21,6 +24,8 @@ const PostForm = ({ post }: PostFormProps) => {
     const { mutateAsync: createPost, isPending: isLoadingCreate } =
     useCreatePost();
     const { user } = useUserContext();
+    const { toast } = useToast();
+    const navigate = useNavigate()
 
 
     // 1. Define your form.
@@ -34,13 +39,20 @@ const PostForm = ({ post }: PostFormProps) => {
       },
     })
    
-    // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof PostValidation>) {
-      const newPost = await CreatePost({
+    // 2. Define a submit handler. 
+    // Getting an error saying useCreatePost is an ambiguous indirect export, breaking the page
+    async function onSubmit(values: z.infer<typeof PostValidation>) {
+      const newPost = await createPost({
         ...values,
         userId: user.id,
       })
-      console.log(values)
+
+      if (!newPost) {
+        toast({
+          title: 'Please try again'
+        })
+      }
+      navigate('/');
     }
   
   return (
