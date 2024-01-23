@@ -34,9 +34,7 @@ const Topbar = () => {
             <img 
               src={user.imageUrl || '/assets/images/default-avatar.png'} 
               alt="profile"
-              className='h-8 w-8 rounded-full'  
-              
-              
+              className='h-8 w-8 rounded-full'                
             />
           </Link>
         </div>

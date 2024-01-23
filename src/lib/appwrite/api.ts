@@ -1,6 +1,6 @@
 import { ID, Query } from 'appwrite';
 
-import { INewUser } from "@/types";
+import { INewPost, INewUser } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from './config';
 
 export async function createUserAccount(user: INewUser) {
@@ -16,12 +16,14 @@ export async function createUserAccount(user: INewUser) {
 
     const avatarUrl = avatars.getInitials(user.name);
 
+    console.log(avatarUrl)
+
     const newUser = await saveUserToDB({
       accountId: newAccount.$id,
       name: newAccount.name,
       email: newAccount.email,
       username: user.username,
-      imageUrl: avatarUrl,
+      imageUrl: avatarUrl
     });
 
     return newUser;
@@ -36,7 +38,7 @@ export async function saveUserToDB(user: {
   accountId: string;
   email: string;
   name: string;
-  imageUrl: URL;
+  imageUrl: URL; // I think this is where the break is coming from.
   username?: string;
 }) {
   try { 
@@ -104,6 +106,8 @@ export async function createPost(post: INewPost) {
 
     // Get file url
     const fileUrl = getFilePreview(uploadedFile.$id)
+    
+    console.log({fileUrl})
 
     if(!fileUrl) {
       deleteFile(uploadedFile.$id)
@@ -151,7 +155,7 @@ export async function uploadFile(file: File) {
   }
 }
 
-export async function getFilePreview(fileId: string) {
+export function getFilePreview(fileId: string) {
   try { 
     const fileUrl = storage.getFilePreview(
       appwriteConfig.storageId,
