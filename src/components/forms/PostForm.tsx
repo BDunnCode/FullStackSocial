@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { Models } from "appwrite"
 import * as z from "zod"
 import { useNavigate } from "react-router-dom"
-
 
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form"
@@ -10,16 +10,14 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "../ui/textarea"
 import FileUploader from "../shared/FileUploader"
 import { PostValidation } from "@/lib/validation"
-import { Models } from "appwrite"
 import { useCreatePost, useUpdatePost } from "@/lib/react-query/queriesAndMutations"
-import { UserRoundIcon } from "lucide-react"
 import { useUserContext } from "@/context/AuthContext"
 import { useToast } from "../ui/use-toast"
  
 type PostFormProps = {
   post?: Models.Document;
   action: 'Create' | 'Update';
-}
+};
 
 const PostForm = ({ post, action }: PostFormProps) => {
     const { user } = useUserContext();
@@ -88,6 +86,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="file"
@@ -104,6 +103,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="location"
@@ -117,6 +117,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="tags"
@@ -129,6 +130,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
                   type="text" 
                   className="shad-input" 
                   placeholder="JS, React, NextJS"
+                  {...field}
                   />
               </FormControl>
               <FormMessage className="shad-form_message" />
@@ -152,7 +154,8 @@ const PostForm = ({ post, action }: PostFormProps) => {
           </Button>
         </div>
       </form>
-    </Form>  )
-}
+    </Form>  
+  );
+};
 
-export default PostForm
+export default PostForm;
