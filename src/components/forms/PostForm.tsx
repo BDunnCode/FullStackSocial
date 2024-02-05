@@ -22,18 +22,9 @@ type PostFormProps = {
 }
 
 const PostForm = ({ post, action }: PostFormProps) => {
-    const { mutateAsync: createPost, isPending: isLoadingCreate } =
-    useCreatePost();
-    const { mutateAsync: updatePost, isPending: isLoadingUpdate } =
-    useUpdatePost();
-  
-
     const { user } = useUserContext();
     const { toast } = useToast();
-    const navigate = useNavigate()
-
-
-    // 1. Define your form.
+    const navigate = useNavigate();
     const form = useForm<z.infer<typeof PostValidation>>({
       resolver: zodResolver(PostValidation),
       defaultValues: {
@@ -42,11 +33,15 @@ const PostForm = ({ post, action }: PostFormProps) => {
         location: post ? post?.location : "",
         tags: post ? post.tags.join(',') : ""
       },
-    })
-   
-    // 2. Define a submit handler. 
-    // Getting an error saying useCreatePost is an ambiguous indirect export, breaking the page
-    async function onSubmit(values: z.infer<typeof PostValidation>) {
+    });
+
+    const { mutateAsync: createPost, isPending: isLoadingCreate } =
+    useCreatePost();
+    const { mutateAsync: updatePost, isPending: isLoadingUpdate } =
+    useUpdatePost();
+  
+
+      async function onSubmit(values: z.infer<typeof PostValidation>) {
       if(post && action === 'Update') {
         const updatedPost = await updatePost({
           ...values,

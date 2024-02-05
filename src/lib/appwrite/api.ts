@@ -1,16 +1,21 @@
 import { ID, Query } from 'appwrite';
 
-import { INewPost, INewUser, IUpdatePost } from "@/types";
+import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from './config';
 
+// ====================================================
+// AUTH
+// ====================================================
+
+// ==================================================== SIGN UP
 export async function createUserAccount(user: INewUser) {
   try {
     const newAccount = await account.create(
       ID.unique(),
       user.email,
       user.password,
-      user.name
-    )
+      user.name,
+    );
 
     if(!newAccount) throw Error;
 
@@ -23,7 +28,7 @@ export async function createUserAccount(user: INewUser) {
       name: newAccount.name,
       email: newAccount.email,
       username: user.username,
-      imageUrl: avatarUrl
+      imageUrl: avatarUrl,
     });
 
     return newUser;
@@ -38,7 +43,7 @@ export async function saveUserToDB(user: {
   accountId: string;
   email: string;
   name: string;
-  imageUrl: URL; // I think this is where the break is coming from.
+  imageUrl: URL; 
   username?: string;
 }) {
   try { 
@@ -47,7 +52,7 @@ export async function saveUserToDB(user: {
       appwriteConfig.userCollectionId,
       ID.unique(),
       user,
-    )
+    );
 
     return newUser;
   } catch (error) {

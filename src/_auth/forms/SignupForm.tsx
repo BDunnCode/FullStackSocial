@@ -1,32 +1,26 @@
+import { z } from "zod";
+import { Link, useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Link, useNavigate } from 'react-router-dom'
 
-import { useToast } from "@/components/ui/use-toast"
-
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from './../../components/ui/button';
-import { useForm } from 'react-hook-form';
-import { SignupValidation } from "@/lib/validation";
-import { z } from "zod";
 import Loader from "@/components/shared/Loader";
+import { useToast } from "@/components/ui/use-toast"
+
+
 import { useCreateUserAccountMutation, useSignInAccountMutation } from "@/lib/react-query/queriesAndMutations";
+import { SignupValidation } from "@/lib/validation";
 import { useUserContext } from "@/context/AuthContext";
 
 const SignupForm = () => {
   const { toast } = useToast()
-  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
   const navigate = useNavigate();
+  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
-  const { mutateAsync: createUserAccount, isPending:
-  isCreatingUser } = useCreateUserAccountMutation();
 
-  const { mutateAsync: signInAccount, 
-    isPending: isSigningIn } = useSignInAccountMutation();
-
-    // 1. Define your form.
     const form = useForm<z.infer<typeof SignupValidation >>({
       resolver: zodResolver(SignupValidation),
       defaultValues: {
@@ -37,9 +31,15 @@ const SignupForm = () => {
       },
     })  
 
+    // Queries
+    const { mutateAsync: createUserAccount, isPending:
+      isCreatingUser } = useCreateUserAccountMutation();
+    
+      const { mutateAsync: signInAccount, 
+        isPending: isSigningInUser } = useSignInAccountMutation();
+    
 
-  
-  // 2. Define a submit handler.
+  // Handler
   async function onSubmit(values: z.infer<typeof SignupValidation>) {
     const newUser = await createUserAccount(values);
 
