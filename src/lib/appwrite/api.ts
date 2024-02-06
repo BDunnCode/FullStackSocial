@@ -102,6 +102,8 @@ export async function signOutAccount() {
   }
 }
 
+// ===== CREATE POST (DEPENDENT ON UPLOAD FILE) =====
+
 export async function createPost(post: INewPost) {
   try {
     // upload image to storage
@@ -135,16 +137,20 @@ export async function createPost(post: INewPost) {
         location: post.location,
         tags: tags
       }
-    )
+    );
 
     if(!newPost) {
       await deleteFile(uploadedFile.$id)
       throw Error;
     }
+
+    return newPost;
   } catch(error) {
     console.log(error)
   }
 }
+
+// ===== UPLOAD FILE =====
 
 export async function uploadFile(file: File) {
   try {
@@ -169,7 +175,9 @@ export function getFilePreview(fileId: string) {
       2000,
       "top",
       100,
-    )
+    );
+
+    if (!fileUrl) throw Error
 
     return fileUrl;
   } catch(error) { 
