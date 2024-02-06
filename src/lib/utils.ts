@@ -26,6 +26,11 @@ export function formatDate(dateString: string): string {
   }
 }
 
+export const checkIsLiked = (likeList: string[], userId: string) => {
+  return likeList.includes(userId)
+}
+
+
 // Example usage
 const dateString = "2024-01-18T12:30:00Z";
 const formattedDate = formatDate(dateString);

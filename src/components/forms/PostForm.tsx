@@ -33,20 +33,22 @@ const PostForm = ({ post, action }: PostFormProps) => {
       },
     });
 
+    // Query
     const { mutateAsync: createPost, isPending: isLoadingCreate } =
     useCreatePost();
     const { mutateAsync: updatePost, isPending: isLoadingUpdate } =
     useUpdatePost();
   
 
-      async function onSubmit(values: z.infer<typeof PostValidation>) {
+    // Handler
+      const handleSubmit = async (value: z.infer<typeof PostValidation>) => {
       if(post && action === 'Update') {
         const updatedPost = await updatePost({
-          ...values,
+          ...value,
           postId: post.$id,
-          imageId: post?.imageId,
+          imageId: post.imageId,
           imageUrl: post?.imageUrl
-        })
+        });
 
         if(!updatedPost) {
           toast({ title: 'Please try again'})
@@ -59,7 +61,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
       // ACTION = CREATE
 
       const newPost = await createPost({
-        ...values,
+        ...value,
         userId: user.id,
       })
 
@@ -69,11 +71,11 @@ const PostForm = ({ post, action }: PostFormProps) => {
         })
       }
       navigate('/');
-    }
+    };
   
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="flex
       flex-col gap-9 w-full">
         <FormField
           control={form.control}

@@ -177,7 +177,7 @@ export function getFilePreview(fileId: string) {
       100,
     );
 
-    if (!fileUrl) throw Error
+    if (!fileUrl) throw Error;
 
     return fileUrl;
   } catch(error) { 

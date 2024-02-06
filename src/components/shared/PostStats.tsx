@@ -3,6 +3,8 @@ import { useDeleteSavedPost, useGetCurrentUser, useLikePost, useSavePost } from 
 import { Models } from "appwrite"
 import { Loader } from "lucide-react";
 
+import {checkIsLiked} from "@/lib/utils";
+
 type PostStatsProps = {
   post?: Models.Document;
   userId: string;
