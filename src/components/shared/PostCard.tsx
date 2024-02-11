@@ -11,8 +11,6 @@ type PostCardProps = {
 const PostCard = ({ post }: PostCardProps) => {
   const { user } = useUserContext(); 
 
-  console.log(post);
-
   if(!post.creator) return;
 
   return (
@@ -33,7 +31,7 @@ const PostCard = ({ post }: PostCardProps) => {
             </p>
             <div className="flex-center gap-2 text-light-3">
             <p className="subtle-semibold lg:small-regular">
-              {formatDate(post.createdAt)}
+              {formatDate(post.$createdAt)}
             </p>
             -
             <p className="subtle-semibold lg:small-regular">
@@ -42,14 +40,19 @@ const PostCard = ({ post }: PostCardProps) => {
             </div>
           </div>
         </div>
+        
+        {/* Allows post creator to edit post, hides to other users */}
 
         <Link to={`/update-post/${post.$id}`}
-          className={`${user.id !== post.creator.$id} && "hidden"`}
+          className={`${user.id !== post.creator.$id && "hidden"}`}
         >
           <img src="/assets/icons/edit.svg" alt="edit" width={20}
           height={20} />
         </Link>
       </div>
+
+      {/* Post tags and post image. Both are wrapped in the same link tag which routes the post on 
+      its own page */}
 
       <Link to={`/posts/${post.$id}`}>
         <div className="small-medium lg:base-medium py-5">

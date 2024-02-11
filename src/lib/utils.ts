@@ -6,6 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatDate(dateString: string): string {
+  console.log(dateString)
   const currentDate = new Date();
   const inputDate = new Date(dateString);
 
