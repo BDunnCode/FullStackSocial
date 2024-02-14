@@ -6,7 +6,7 @@ import { Loader } from "lucide-react";
 import {checkIsLiked} from "@/lib/utils";
 
 type PostStatsProps = {
-  post?: Models.Document;
+  post: Models.Document;
   userId: string;
 }
 
@@ -23,7 +23,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
   const { data: currentUser } = useGetCurrentUser();
 
   const savedPostRecord = currentUser?.save.find((record: Models.
-    Document) => record.post.$id === post?.$id);  
+    Document) => record.post.$id === post.$id);  
 
   useEffect(() => {
     setIsSaved(!!savedPostRecord)
@@ -35,7 +35,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
 
     let likesArray = [...likes];
     console.log(likesArray)
-
+    console.log(currentUser)
       const hasLiked = likesArray.includes(userId)
   
       if(hasLiked) {
@@ -45,7 +45,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
       }
 
       setLikes(likesArray);
-      likePost({ postId: post?.$id || '', likesArray})
+      likePost({ postId: post.$id, likesArray})
     }
 
   const handleSavePost = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {    
@@ -53,10 +53,11 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
 
     if (savedPostRecord) {
       setIsSaved(false);
+      console.log('Attempting to Delete Post')
       return deleteSavedPost(savedPostRecord.$id);
     } 
       console.log('Attempting to Save Post')
-      savePost({ postId: post?.$id || '', userId })
+      savePost({ userId: userId, postId: post.$id })
       setIsSaved(true);
     }
       
@@ -91,7 +92,6 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
           className="cursor-pointer"
         /> 
       }
-        <p className="small-medium base lg:base-medium">0</p>
       </div>
     </div>
   )
