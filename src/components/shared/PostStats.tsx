@@ -34,10 +34,10 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
     e.stopPropagation();
 
     let likesArray = [...likes];
-
+    console.log(likesArray)
 
       const hasLiked = likesArray.includes(userId)
-
+  
       if(hasLiked) {
         likesArray = likesArray.filter((id) => id !== userId);
       } else {
@@ -55,6 +55,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
       setIsSaved(false);
       return deleteSavedPost(savedPostRecord.$id);
     } 
+      console.log('Attempting to Save Post')
       savePost({ postId: post?.$id || '', userId })
       setIsSaved(true);
     }
@@ -71,10 +72,10 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
           alt="like"
           width={20}
           height={20}
-          onClick={() => {handleLikePost}}
+          onClick={handleLikePost}
           className="cursor-pointer"
         />
-        <p className="small-medium base lg:base-medium">0={likes.length}</p>
+        <p className="small-medium base lg:base-medium">{likes.length}</p>
       </div>
 
       <div className="flex gap-2">
