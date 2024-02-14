@@ -10,11 +10,10 @@ type PostStatsProps = {
   userId: string;
 }
 
-
 const PostStats = ({ post, userId }: PostStatsProps) => {
   const likesList = post?.likes.map((user: Models.Document) => user.$id)
 
-  const [likes, setLikes] = useState(likesList);
+  const [likes, setLikes] = useState<string[]>(likesList);
   const [isSaved, setIsSaved] = useState(false);
 
   const { mutate: likePost } = useLikePost();
@@ -23,50 +22,43 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
 
   const { data: currentUser } = useGetCurrentUser();
 
-  const handleLikePost = (e: React.MouseEvent) => {
-    e.stopPropagation();
-
-    let newLikes = [...likes];
-
-
-      const hasLiked = newLikes.includes(userId)
-
-      if(hasLiked) {
-        newLikes = newLikes.filter((id) => id !== userId);
-      } else {
-        newLikes.push(userId)
-      }
-
-      setLikes(newLikes);
-      likePost({ postId: post?.$id || '', likesArray: newLikes})
-    }
-
   const savedPostRecord = currentUser?.save.find((record: Models.
-  Document) => record.post.$id === post?.$id);
-
-    // { saved: true } => !savedPostRecord => !false = true;
-    // 'test' => !savedPostRecord => !false = true;
+    Document) => record.post.$id === post?.$id);  
 
   useEffect(() => {
     setIsSaved(!!savedPostRecord)
-  }, [currentUser])
+  }, [currentUser]);
+  
 
-
-  const handleSavePost = (e: React.MouseEvent) => {    
+  const handleLikePost = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
     e.stopPropagation();
 
-    const savedPostRecord = currentUser?.save.find((record: Models.
-      Document) => record.$id === post?.$id);
+    let likesArray = [...likes];
+
+
+      const hasLiked = likesArray.includes(userId)
+
+      if(hasLiked) {
+        likesArray = likesArray.filter((id) => id !== userId);
+      } else {
+        likesArray.push(userId)
+      }
+
+      setLikes(likesArray);
+      likePost({ postId: post?.$id || '', likesArray})
+    }
+
+  const handleSavePost = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {    
+    e.stopPropagation();
 
     if (savedPostRecord) {
       setIsSaved(false);
-      deleteSavedPost(savedPostRecord.$id);
-    } else {
+      return deleteSavedPost(savedPostRecord.$id);
+    } 
       savePost({ postId: post?.$id || '', userId })
       setIsSaved(true);
     }
       
-}
 
   return (
     <div className="flex justify-between items-center z-20">

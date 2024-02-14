@@ -212,7 +212,7 @@ export async function likePost(postId: string, likesArray: string[]) {
     const updatedPost = await databases.updateDocument(
       appwriteConfig.databaseId,
       appwriteConfig.postCollectionId,
-      postId, //this might be missing as an attribute in appwrite?
+      postId,
       {
         likes: likesArray
       }
