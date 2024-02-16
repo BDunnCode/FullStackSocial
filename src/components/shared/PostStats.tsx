@@ -6,7 +6,7 @@ import { Loader } from "lucide-react";
 import {checkIsLiked} from "@/lib/utils";
 
 type PostStatsProps = {
-  post: Models.Document;
+  post?: Models.Document;
   userId: string;
 }
 
@@ -23,7 +23,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
   const { data: currentUser } = useGetCurrentUser();
 
   const savedPostRecord = currentUser?.save.find((record: Models.
-    Document) => record.post.$id === post.$id);  
+    Document) => record.post.$id === post?.$id);  
 
   useEffect(() => {
     setIsSaved(!!savedPostRecord)
@@ -34,9 +34,8 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
     e.stopPropagation();
 
     let likesArray = [...likes];
-    console.log(likesArray)
-    console.log(currentUser)
-      const hasLiked = likesArray.includes(userId)
+
+    const hasLiked = likesArray.includes(userId)
   
       if(hasLiked) {
         likesArray = likesArray.filter((id) => id !== userId);
@@ -45,8 +44,8 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
       }
 
       setLikes(likesArray);
-      likePost({ postId: post.$id, likesArray})
-    }
+      likePost({ postId: post?.$id || '', likesArray })
+    };
 
   const handleSavePost = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {    
     e.stopPropagation();
@@ -57,7 +56,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
       return deleteSavedPost(savedPostRecord.$id);
     } 
       console.log('Attempting to Save Post')
-      savePost({ userId: userId, postId: post.$id })
+      savePost({ userId: userId, postId: post?.$id || '' })
       setIsSaved(true);
     }
       
@@ -66,14 +65,14 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
     <div className="flex justify-between items-center z-20">
       <div className="flex gap-2 mr-5">
          <img 
-          src={checkIsLiked(likes, userId) 
+          src={`${checkIsLiked(likes, userId) 
           ? "/assets/icons/liked.svg" 
           : "/assets/icons/like.svg"
-        }
+        }`}
           alt="like"
           width={20}
           height={20}
-          onClick={handleLikePost}
+          onClick={(e) => handleLikePost(e)}
           className="cursor-pointer"
         />
         <p className="small-medium base lg:base-medium">{likes.length}</p>
@@ -88,13 +87,13 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
           alt="like"
           width={20}
           height={20}
-          onClick={handleSavePost}
+          onClick={(e) => handleSavePost(e)}
           className="cursor-pointer"
         /> 
       }
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PostStats
+export default PostStats;
