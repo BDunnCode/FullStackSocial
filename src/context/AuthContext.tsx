@@ -59,8 +59,9 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    // localStorage.getItem('cookieFallback') === null
     if(
+      // Below is going to redirect me to sign-in everytime until it's working, and I want to work on the Home Page / RootLayout right now.
+      // localStorage.getItem('cookieFallback') === null ||
       localStorage.getItem('cookieFallback') === '[]' 
     ) navigate('/sign-in')
 
@@ -85,4 +86,11 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
 export default AuthProvider
 
-export const useUserContext = () => () => useContext(AuthContext);
+export const useUserContext = () => useContext(AuthContext);
+
+// You can slot in <IContextType> in between function portion of useContext and AuthContext
+// if you want. Doesn't seem to make a ton of difference either way.
+
+// This would make line 89 look like:
+// export const useUserContext = () => useContext<IContextType>(AuthContext);
+// I seem to get the same errors regardless.
