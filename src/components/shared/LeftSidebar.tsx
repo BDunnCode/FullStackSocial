@@ -1,25 +1,30 @@
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom"
+
+import { INavLink } from "@/types";
+import { sidebarLinks } from "@/constants";
+import { Loader } from "@/components/shared";
 import { Button } from "../ui/button"
 import { useSignOutAccountMutation } from "@/lib/react-query/queriesAndMutations";
-import { useEffect } from "react";
-import { useUserContext } from "@/context/AuthContext";
-import { sidebarLinks } from "@/constants";
-import { INavLink } from "@/types";
+import { useUserContext, INITIAL_USER } from "@/context/AuthContext";
 
 const LeftSidebar = () => {
-  const { pathname } = useLocation()
-  const { mutate: signOut, isSuccess } = useSignOutAccountMutation();
+  const { pathname } = useLocation();
+  const { mutate: signOut } = useSignOutAccountMutation();
   const navigate = useNavigate();
-  const { user } = useUserContext();
+  const { user, setUser, setIsAuthenticated, isLoading } = useUserContext();
 
-  useEffect( () => {
-    if (isSuccess) navigate(0);
-  }, [isSuccess])
+  const handleSignOut = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    signOut();
+    setIsAuthenticated(false);
+    setUser(INITIAL_USER);
+    navigate("/sign-in");
+  };
 
   return (
     <nav className="leftsidebar">
       <div className="flex flex-col gap-11">
-      <Link to="/" className="flex gap-3 items-center">
+        <Link to="/" className="flex gap-3 items-center">
           <img 
             src="/assets/images/logo.svg"
             alt="logo"
@@ -27,22 +32,24 @@ const LeftSidebar = () => {
             height={36}
           />
         </Link>
-        <Link to={`/profile/${user.id}}`}
-        className="flex gap-3 items-center">
-          <img
-            src={user.imageUrl || "/assets/icons/profile-placeholder.svg"}
-            alt="profile"
-            className='h-14 w-14 rounded-full'
-          />
-          <div className="flex flex-col">
-            <p className="body-bold">
-              {user.name}
-            </p>
-            <p className="small-regular text-light-3">
-                @{user.username}
-            </p>
+        {isLoading || !user.email ? (
+          <div className="h-14">
+            <Loader />
           </div>
-        </Link>
+        ) : (
+          <Link to={`/profile/${user.id}}`}
+          className="flex gap-3 items-center">
+            <img
+              src={user.imageUrl || "/assets/icons/profile-placeholder.svg"}
+              alt="profile"
+              className='h-14 w-14 rounded-full'
+            />
+            <div className="flex flex-col">
+              <p className="body-bold">{user.name}</p>
+              <p className="small-regular text-light-3"> @{user.username}</p>
+            </div>
+          </Link>  
+        )}
 
         <ul className="flex flex-col gap-6"></ul>
           {sidebarLinks.map((link: INavLink) => {
@@ -71,7 +78,7 @@ const LeftSidebar = () => {
       </div>
 
       <Button variant="ghost" className="shad-button_ghost"
-          onClick={() => signOut}>
+          onClick={(e) => handleSignOut(e)}>
             <img src="/assets/icons/logout.svg" alt="logout" />
             <p className="small-medium lg:base-medium">Logout</p>
       </Button>
