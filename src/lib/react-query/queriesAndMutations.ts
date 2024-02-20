@@ -181,11 +181,12 @@ export const useUpdatePost = () => {
           return null;
         }
 
-        const lastId = lastPage.documents[lastPage.documents.length - 1].$id;
+        const lastId = lastPage && lastPage.documents[lastPage.documents.length - 1].$id;
+        {/* Put lastPage && in front to decrease errors 2-19-24*/}
         return lastId;
-      }
-    })
-  }
+      },
+    });
+  };
 
   export const useSearchPosts = (searchTerm: string) => {
     return useQuery({
