@@ -102,6 +102,41 @@ export async function signOutAccount() {
   }
 }
 
+export async function getUsers() {
+  try { 
+    const users = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      [Query.orderDesc("$createdAt")]
+    )
+
+    if (!users) throw Error;
+
+    return users
+
+  } catch (error) {
+    console.log(error)
+  }
+} 
+
+
+export async function getTopUsers() {
+  try { 
+    const topUsers = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      [Query.orderDesc("$createdAt"), Query.limit(8)]
+    )
+
+    if (!topUsers) throw Error;
+
+    return topUsers
+
+  } catch (error) {
+    console.log(error)
+  }
+} 
+
 // ===== CREATE POST (DEPENDENT ON UPLOAD FILE) =====
 
 export async function createPost(post: INewPost) {
