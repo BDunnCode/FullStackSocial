@@ -14,6 +14,8 @@ import {
   getInfinitePosts, 
   getPostById, 
   getRecentPosts, 
+  getTopUsers, 
+  getUsers,
   likePost, 
   savePost, 
   searchPosts, 
@@ -134,6 +136,21 @@ export const useGetCurrentUser = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_CURRENT_USER],
     queryFn: getCurrentUser
+  })
+}
+
+{/* To Do Below. Complete incomplete query */}
+export const useGetUsers = () => {
+  return useQuery({
+    queryKey: [],
+    queryFn: getUsers
+  })
+}
+
+export const useGetTopUsers = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_TOP_USERS],
+    queryFn: getTopUsers
   })
 }
 
