@@ -4,7 +4,6 @@ import PostCard from "@/components/shared/PostCard";
 
 import { useGetPosts, useGetTopUsers } from "@/lib/react-query/queriesAndMutations";
 
-
 import { Models } from "appwrite";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
@@ -32,7 +31,6 @@ const Home = () => {
       </div>
     )
   }
-
   return (
     <div className="flex flex-1">
       <div className="home-container">
@@ -61,6 +59,9 @@ const Home = () => {
               username={user.username}
             />
           ))}
+        </div>
+        <div ref={ref}>
+          <Loader />
         </div>
       </div>
     </div>

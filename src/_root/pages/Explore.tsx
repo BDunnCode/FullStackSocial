@@ -10,7 +10,7 @@ import { useInView } from 'react-intersection-observer'
 const Explore = () => {
   const { ref, inView } = useInView();
   const { data: posts, fetchNextPage, hasNextPage } = useGetPosts();
-
+  console.log(posts)
   const [searchValue, setSearchValue] = useState('')
   const debouncedValue = useDebounce(searchValue, 500);
   const { data: searchedPosts, isFetching: isSearchFetching } =
@@ -18,6 +18,7 @@ const Explore = () => {
 
   useEffect(() => {
     if(inView && !searchValue) fetchNextPage();
+    console.log(posts)
   }, [inView, searchValue]) 
   
 if(!posts) {
