@@ -4,7 +4,6 @@ import PostCard from "@/components/shared/PostCard";
 
 import { useGetPosts, useGetTopUsers } from "@/lib/react-query/queriesAndMutations";
 
-
 import { Models } from "appwrite";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
@@ -68,6 +67,8 @@ const Home = () => {
             ))}
           </ul>
       </div>
+
+
     </div>
   );
 };

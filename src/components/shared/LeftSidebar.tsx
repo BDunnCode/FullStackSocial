@@ -12,7 +12,7 @@ const LeftSidebar = () => {
   const { mutate: signOut } = useSignOutAccountMutation();
   const navigate = useNavigate();
   const { user, setUser, setIsAuthenticated, isLoading } = useUserContext();
-
+  
   const handleSignOut = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     signOut();
