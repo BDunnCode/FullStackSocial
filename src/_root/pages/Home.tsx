@@ -31,6 +31,7 @@ const Home = () => {
       </div>
     )
   }
+
   return (
     <div className="flex flex-1">
       <div className="home-container">
@@ -45,7 +46,8 @@ const Home = () => {
           </ul>
           {isFetching && <Loader />}
         </div>
-        <div ref={ref}></div>
+        <div ref={ref}>
+        </div>
       </div>
 
       <div className="top-creators-sidebar">
@@ -60,10 +62,9 @@ const Home = () => {
             />
           ))}
         </div>
-        <div ref={ref}>
-          <Loader />
-        </div>
       </div>
+
+
     </div>
   );
 };
