@@ -39,29 +39,34 @@ const Home = () => {
         <div className="home-posts">
           <h2 className="h3-bold md:h2-bold text-left w-full">Home Feed</h2>
           <ul className="flex flex-col flex-1 gap-9 w-full">
-            {(posts?.pages || []).map((page, pageIndex) =>
+            {(posts?.pages || []).map((page) =>
               page?.documents.map((post: Models.Document) => (
-                <PostCard post={post} key={`page-${pageIndex}-${post.id}`} />
+                <li key={`${post.id}`}>
+                  <PostCard post={post}  />
+                </li>
               ))
             )}
           </ul>
           {isFetching && <Loader />}
         </div>
-        <div ref={ref}></div>
+        {posts && <div ref={ref} />}
       </div>
 
       <div className="top-creators-sidebar">
         <h3 className="h3-bold">Top Creators</h3>
-        <div className="grid grid-cols-2 grid-rows-4 gap-4 py-4">
-          {topUsers?.documents.map((user) => (
-            <CreatorCard 
-              key={user.accountId}
-              userprofileimg={user.imageUrl}
-              name={user.name}
-              username={user.username}
-            />
-          ))}
-        </div>
+          <ul className="grid grid-cols-2 grid-rows-4 gap-4 py-4">
+            { isTopUsersLoading ? <Loader /> :
+
+            topUsers?.documents.map((user) => (
+              <li key={user.accountId}>
+                <CreatorCard 
+                  userprofileimg={user.imageUrl}
+                  name={user.name}
+                  username={user.username}
+                />
+              </li>
+            ))}
+          </ul>
       </div>
     </div>
   );
