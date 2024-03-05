@@ -1,4 +1,4 @@
-import { INewPost, INewUser, IUpdatePost, IUpdateUser } from '@/types'
+import { INewPost, INewUser, IUpdatePost,} from '@/types'
 import { 
   useQuery,
   useMutation,
