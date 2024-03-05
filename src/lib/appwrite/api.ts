@@ -385,17 +385,11 @@ export async function deletePost(postId: string, imageId: string) {
 
 export async function getInfinitePosts({ pageParam }: { pageParam: number }) {
   const queries: any[] = [Query.orderDesc('$updatedAt'), Query.limit
-(10)]
-
-{/* Above is the initial set of posts, limited to 10. This will be the default amount 
-you start with before a trigger happens to get another set. Fairly certain there. */}
+(9)]
 
   if(pageParam) {
     queries.push(Query.cursorAfter(pageParam.toString()))
   }
-
-  {/* I believe the pageParam is just a number determined in a counter somewhere else. Less sure there, but
-  would make sense to me.*/}
 
   try {
     const posts = await databases.listDocuments(
@@ -403,8 +397,6 @@ you start with before a trigger happens to get another set. Fairly certain there
       appwriteConfig.postCollectionId,
       queries
     )
-
-    {/* Not exactly sure why queries gets passed in here. Perhaps what to omit. Need to see listDocuments function */}
 
     if(!posts) throw Error;
 
