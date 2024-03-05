@@ -102,6 +102,41 @@ export async function signOutAccount() {
   }
 }
 
+export async function getUsers() {
+  try { 
+    const users = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      [Query.orderDesc("$createdAt")]
+    )
+
+    if (!users) throw Error;
+
+    return users
+
+  } catch (error) {
+    console.log(error)
+  }
+} 
+
+
+export async function getTopUsers() {
+  try { 
+    const topUsers = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      [Query.orderDesc("$createdAt"), Query.limit(8)]
+    )
+
+    if (!topUsers) throw Error;
+
+    return topUsers
+
+  } catch (error) {
+    console.log(error)
+  }
+} 
+
 // ===== CREATE POST (DEPENDENT ON UPLOAD FILE) =====
 
 export async function createPost(post: INewPost) {
@@ -199,7 +234,7 @@ export async function getRecentPosts() {
   const posts = await databases.listDocuments(
     appwriteConfig.databaseId,
     appwriteConfig.postCollectionId,
-    [Query.orderDesc('$createdAt'), Query.limit(20)]
+    [Query.orderDesc('$createdAt'), Query.limit(9)]
   )
 
   if(!posts) throw Error;
@@ -352,9 +387,15 @@ export async function getInfinitePosts({ pageParam }: { pageParam: number }) {
   const queries: any[] = [Query.orderDesc('$updatedAt'), Query.limit
 (10)]
 
+{/* Above is the initial set of posts, limited to 10. This will be the default amount 
+you start with before a trigger happens to get another set. Fairly certain there. */}
+
   if(pageParam) {
     queries.push(Query.cursorAfter(pageParam.toString()))
   }
+
+  {/* I believe the pageParam is just a number determined in a counter somewhere else. Less sure there, but
+  would make sense to me.*/}
 
   try {
     const posts = await databases.listDocuments(
@@ -362,6 +403,8 @@ export async function getInfinitePosts({ pageParam }: { pageParam: number }) {
       appwriteConfig.postCollectionId,
       queries
     )
+
+    {/* Not exactly sure why queries gets passed in here. Perhaps what to omit. Need to see listDocuments function */}
 
     if(!posts) throw Error;
 

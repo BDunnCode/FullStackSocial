@@ -14,6 +14,8 @@ import {
   getInfinitePosts, 
   getPostById, 
   getRecentPosts, 
+  getTopUsers, 
+  getUsers,
   likePost, 
   savePost, 
   searchPosts, 
@@ -137,6 +139,21 @@ export const useGetCurrentUser = () => {
   })
 }
 
+{/* To Do Below. Complete incomplete query */}
+export const useGetUsers = () => {
+  return useQuery({
+    queryKey: [],
+    queryFn: getUsers
+  })
+}
+
+export const useGetTopUsers = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_TOP_USERS],
+    queryFn: getTopUsers
+  })
+}
+
 export const useGetPostById = (postId: string) => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_POST_BY_ID, postId],
@@ -181,11 +198,12 @@ export const useUpdatePost = () => {
           return null;
         }
 
-        const lastId = lastPage.documents[lastPage.documents.length - 1].$id;
+        const lastId = lastPage && lastPage.documents[lastPage.documents.length - 1].$id;
+        {/* Put lastPage && in front to decrease errors 2-19-24*/}
         return lastId;
-      }
-    })
-  }
+      },
+    });
+  };
 
   export const useSearchPosts = (searchTerm: string) => {
     return useQuery({
