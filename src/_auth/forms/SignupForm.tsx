@@ -20,25 +20,23 @@ const SignupForm = () => {
   const navigate = useNavigate();
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
-
-    const form = useForm<z.infer<typeof SignupValidation >>({
-      resolver: zodResolver(SignupValidation),
-      defaultValues: {
-        name: '',
-        username: '',
-        email: '',
-        password: '',
-      },
-    })  
+  const form = useForm<z.infer<typeof SignupValidation >>({
+    resolver: zodResolver(SignupValidation),
+    defaultValues: {
+      name: '',
+      username: '',
+      email: '',
+      password: '',
+    },
+  });  
 
     // Queries
     const { mutateAsync: createUserAccount, isPending:
       isCreatingUser } = useCreateUserAccountMutation();
     
-      const { mutateAsync: signInAccount, 
-        isPending: isSigningInUser } = useSignInAccountMutation();
+    const { mutateAsync: signInAccount, 
+      isPending: isSigningInUser } = useSignInAccountMutation();
     
-
   // Handler
   async function onSubmit(values: z.infer<typeof SignupValidation>) {
     const newUser = await createUserAccount(values);
@@ -135,7 +133,7 @@ const SignupForm = () => {
           <Button
           type="submit"
           className="shad-button_primary">
-            {isCreatingUser ? (
+            {isCreatingUser || isUserLoading || isSigningInUser ? (
               <div className="flex-center gap-2">
                 <Loader /> Loading...
               </div>
