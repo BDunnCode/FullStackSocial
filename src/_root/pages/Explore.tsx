@@ -11,6 +11,7 @@ const Explore = () => {
   // For getting infinite posts
   const { ref, inView } = useInView();
   const { data: posts, fetchNextPage, hasNextPage } = useGetPosts();
+  console.log(posts)
 
   // For search 
   const [searchValue, setSearchValue] = useState('')
@@ -33,7 +34,7 @@ if(!posts)
 
   const shouldShowSearchResults = searchValue !== '';
   const shouldShowPosts = !shouldShowSearchResults && posts.pages.every
-  ((item) => item.documents.length === 0)
+  ((item) => item?.documents.length === 0)
 
   return (
     <div className="explore-container">
@@ -80,7 +81,9 @@ if(!posts)
         ) : shouldShowPosts ? (
           <p className="text-light-4 mt-10 text-center w-full">End of posts</p>
         ) : posts.pages.map((item, index) => (
+          item ? (
           <GridPostList key={`page-${index}`} posts={item.documents} />
+          ) : null
         ))}
       </div>
 
