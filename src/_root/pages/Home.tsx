@@ -46,7 +46,7 @@ const Home = () => {
               ))
             )}
           </ul>
-          {isFetching && <Loader />}
+          {(isFetching || isPostLoading) && <Loader />}
         </div>
         {posts && <div ref={ref} />}
       </div>
