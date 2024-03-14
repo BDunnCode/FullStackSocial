@@ -26,10 +26,10 @@ const PostForm = ({ post, action }: PostFormProps) => {
     const form = useForm<z.infer<typeof PostValidation>>({
       resolver: zodResolver(PostValidation),
       defaultValues: {
-        caption: post ? post?.caption :  "",
+        caption: post ? post?.caption : "",
         file: [],
         location: post ? post?.location : "",
-        tags: post ? post.tags.join(',') : ""
+        tags: post ? post.tags.join(',') : "",
       },
     });
 
@@ -42,20 +42,20 @@ const PostForm = ({ post, action }: PostFormProps) => {
 
     // Handler
       const handleSubmit = async (value: z.infer<typeof PostValidation>) => {
-      if(post && action === 'Update') {
-        const updatedPost = await updatePost({
-          ...value,
-          postId: post.$id,
-          imageId: post.imageId,
-          imageUrl: post?.imageUrl
-        });
+        if(post && action === 'Update') {
+          const updatedPost = await updatePost({
+            ...value,
+            postId: post.$id,
+            imageId: post.imageId,
+            imageUrl: post?.imageUrl
+          });
 
-        if(!updatedPost) {
-          toast({ title: 'Please try again'})
+          if(!updatedPost) {
+            toast({ title: 'Please try again'});
+          }
+
+          return navigate(`/posts/${post.$id}`);
         }
-
-        return navigate(`/posts/{post.$id}`);
-      }
       
 
       // ACTION = CREATE
@@ -146,6 +146,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
           <Button 
             type="button" 
             className="shad-button_dark_4"
+            onClick={() => navigate(-1)}
           >
             Cancel
           </Button>
