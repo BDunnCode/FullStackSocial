@@ -25,9 +25,9 @@ const AllUsers = () => {
         {isUsersLoading && !users ? (
           <Loader />
         ) : (
-          <ul className="grid-container">
+          <ul className="user-grid">
             {users?.documents.map((user) => (
-              <li key={user?.$id} className="flex-1 min-w-[210px] w-full">
+              <li key={user?.$id} className="flex-1 min-w-[210px] md:max-w-[250px] w-full">
                 <CreatorCard
                   userProfileImg={user.imageUrl}
                   name={user.name}
@@ -40,6 +40,6 @@ const AllUsers = () => {
       </div>
     </div>
   )
-}
+};
 
 export default AllUsers

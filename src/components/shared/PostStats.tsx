@@ -10,7 +10,7 @@ type PostStatsProps = {
   userId: string;
 }
 
-const PostStats = ({ post, userId }: PostStatsProps) => {
+export const PostStats = ({ post, userId }: PostStatsProps) => {
   const likesList = post?.likes.map((user: Models.Document) => user.$id)
 
   const [likes, setLikes] = useState<string[]>(likesList);
@@ -96,4 +96,3 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
   );
 };
 
-export default PostStats;

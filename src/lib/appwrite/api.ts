@@ -6,7 +6,6 @@ import { account, appwriteConfig, avatars, databases, storage } from './config';
 // AUTH
 // ====================================================
 
-// ==================================================== SIGN UP
 export async function createUserAccount(user: INewUser) {
   try {
     const newAccount = await account.create(
@@ -278,6 +277,28 @@ export async function savePost(postId: string, userId: string) {
     return updatedPost
   } catch (error) {
     console.log(error);
+  }
+}
+
+export async function getInfiniteSavedPosts({ pageParam }: { pageParam: number }) {
+  const queries: any[] = [Query.orderDesc('$updatedAt'), Query.limit(9)]
+
+  if(pageParam) {
+    queries.push(Query.cursorAfter(pageParam.toString()))
+  }
+
+  try {
+    const savedPosts = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      queries
+    )
+
+    if(!savedPosts) throw Error;
+
+    return savedPosts;
+  } catch (error) {
+    console.log(error)
   }
 }
 
