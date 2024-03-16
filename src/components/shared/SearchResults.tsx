@@ -1,4 +1,4 @@
-import Loader from './Loader';
+import { Loader } from './Loader';
 import GridPostList from './GridPostList';
 
 type SearchResultsProps = {

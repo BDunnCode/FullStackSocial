@@ -1,5 +1,5 @@
 import CreatorCard from "@/components/shared/CreatorCard";
-import Loader from "@/components/shared/Loader";
+import { Loader } from "@/components/shared/Loader";
 import { useGetUsers } from "@/lib/react-query/queriesAndMutations";
 
 

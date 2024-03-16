@@ -1,4 +1,4 @@
-import Loader from "@/components/shared/Loader";
+import { Loader } from "@/components/shared/Loader";
 import { PostStats } from "@/components/shared/PostStats";
 import { Button } from "@/components/ui/button";
 import { useUserContext } from "@/context/AuthContext";
