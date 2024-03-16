@@ -59,7 +59,7 @@ const Home = () => {
             topUsers?.documents.map((user) => (
               <li key={user.accountId}>
                 <CreatorCard 
-                  userprofileimg={user.imageUrl}
+                  userProfileImg={user.imageUrl}
                   name={user.name}
                   username={user.username}
                 />

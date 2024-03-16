@@ -139,10 +139,9 @@ export const useGetCurrentUser = () => {
   })
 }
 
-{/* To Do Below. Complete incomplete query */}
 export const useGetUsers = () => {
   return useQuery({
-    queryKey: [],
+    queryKey: [QUERY_KEYS.GET_USERS],
     queryFn: getUsers
   })
 }
