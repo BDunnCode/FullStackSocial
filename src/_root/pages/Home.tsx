@@ -1,5 +1,5 @@
 import CreatorCard from "@/components/shared/CreatorCard";
-import Loader from "@/components/shared/Loader";
+import { Loader } from "@/components/shared/Loader";
 import PostCard from "@/components/shared/PostCard";
 
 import { useGetPosts, useGetTopUsers } from "@/lib/react-query/queriesAndMutations";
@@ -59,7 +59,7 @@ const Home = () => {
             topUsers?.documents.map((user) => (
               <li key={user.accountId}>
                 <CreatorCard 
-                  userprofileimg={user.imageUrl}
+                  userProfileImg={user.imageUrl}
                   name={user.name}
                   username={user.username}
                 />
