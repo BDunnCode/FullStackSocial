@@ -8,7 +8,10 @@ import { useInView } from "react-intersection-observer";
 export const Saved = () => {
   // For getting infinite posts
   const { ref, inView } = useInView();
-  const { data: savedPosts, fetchNextPage, hasNextPage, isFetching, isLoading, isError: isErrorSavedPosts } = useGetInfiniteSavedPosts();
+
+  // I took the destructured isFetching and isLoading out of destructuring block below so hosting would continue until
+  // I come through and polish more thoroughly. Put them back in.
+  const { data: savedPosts, fetchNextPage, hasNextPage, isError: isErrorSavedPosts } = useGetInfiniteSavedPosts();
 
   useEffect(() => {
     if(inView) {
