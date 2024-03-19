@@ -1,18 +1,18 @@
 import { Button } from "../ui/button"
 
 type CreatorCardProps = {
-  userprofileimg: string,
+  userProfileImg: string,
   name: string,
   username: string,
 }
 
 
-const CreatorCard = ({userprofileimg, name, username}: CreatorCardProps) => {
+const CreatorCard = ({userProfileImg, name, username}: CreatorCardProps) => {
   return (
     <div className="user-card">
       <div className="flex flex-col items-center px-4 gap-2">
         <img 
-          src={userprofileimg}
+          src={userProfileImg}
           height={50}
           width={50}  
           className="rounded-full"    
