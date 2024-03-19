@@ -41,14 +41,16 @@ const UpdateProfile = () => {
 
   const { data: currentUser } = useGetUserById(id || "");
   
-  const { mutateAsync: updateUser, isLoading: isLoadingUpdate } = useUpdateUser();
+  const { mutateAsync: updateUser } = useUpdateUser();
+
+  console.log(updateUser);
 
   if (!currentUser)
     return (
       <div className="flex-center w-full h-full">
         <Loader />
       </div>
-    )
+    );
 
   const handleUpdate = async (value: z.infer<typeof ProfileValidation>) => {
     const updatedUser = await updateUser({
@@ -76,101 +78,115 @@ const UpdateProfile = () => {
   };
 
    return (
-      <div>
-        <Form {...form}>
-          <form 
-            onSubmit={form.handleSubmit(handleUpdate)}
-            className="flex flex-col gap-7 w-full mt-4 max-w-5xl">
+      <div className="flex flex-1">
+        <div className="common-container">
+          <div className="flex-start gap-3 justify-start w-full max-w-5xl">
+            <img 
+              src="/assets/icons/edit.svg"
+              width={36}
+              height={36}
+              alt="edit"
+              className="invert-white"
+            />
+            <h2 className="h3-bold md:h2-bold text-left w-full">Edit Profile</h2>
+          </div>
+
+          <Form {...form}>
+            <form 
+              onSubmit={form.handleSubmit(handleUpdate)}
+              className="flex flex-col gap-7 w-full mt-4 max-w-5xl">
+              <FormField
+                control={form.control}
+                name="file"
+                render={( { field }) => (
+                  <FormItem>
+                    <FormLabel />
+                    <FormControl>
+                      <ProfileUploader
+                        fieldChange={field.onChange}
+                        mediaUrl={currentUser.imageUrl}
+                      />
+                  </FormControl>
+                  <FormMessage className="shad-form_message" />
+                </FormItem>
+              )}
+            />
+
+            <FormField 
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="shad-form_label">Name</FormLabel>
+                  <FormControl>
+                    <Input type="text" className="shad-input" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
-              name="file"
-              render={( { field }) => (
+              name="username"
+              render={({ field }) => (
                 <FormItem>
-                  <FormLabel />
+                  <FormLabel className="shad-form_label">Username</FormLabel>
                   <FormControl>
-                    <ProfileUploader
-                      fieldChange={field.onChange}
-                      mediaUrl={currentUser.imageUrl}
-                    />
-                </FormControl>
-                <FormMessage className="shad-form_message" />
-              </FormItem>
-            )}
-          />
+                    <Input type="text" className="shad-input" {...field} disabled />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField 
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="shad-form_label">Name</FormLabel>
-                <FormControl>
-                  <Input type="text" className="shad-input" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="shad-form_label">Email</FormLabel>
+                  <FormControl>
+                    <Input type="text" className="shad-input" {...field} disabled />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="shad-form_label">Username</FormLabel>
-                <FormControl>
-                  <Input type="text" className="shad-input" {...field} disabled />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="bio"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="shad-form_label">Bio</FormLabel>
+                  <FormControl>
+                    <Textarea className="shad-input custom-scrollbar" {...field} />
+                  </FormControl>
+                  <FormMessage className="shad-form_message" />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="shad-form_label">Email</FormLabel>
-                <FormControl>
-                  <Input type="text" className="shad-input" {...field} disabled />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="bio"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="shad-form_label">Bio</FormLabel>
-                <FormControl>
-                  <Textarea className="shad-input custom-scrollbar" {...field} />
-                </FormControl>
-                <FormMessage className="shad-form_message" />
-              </FormItem>
-            )}
-          />
-
-          <div className="flex gap-4 items-center justify-end">
-            <Button
-              type="button"
-              className="shad-button_dark_4"
-              onClick={() => navigate(-1)}>
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              className="shad-button_primary whitespace-nowrap"
-              disabled={isLoadingUpdate}>
-              {isLoadingUpdate && <Loader />}
-              Update Profile
-            </Button>
-          </div>
-        </form>
-      </Form>
+            {/* There's a break in here. The submit button should be disabled while update user is loading,
+                but there appears to have been changes to React Query. Fix / workaround needed. */}
+            <div className="flex gap-4 items-center justify-end">
+              <Button
+                type="button"
+                className="shad-button_dark_4"
+                onClick={() => navigate(-1)}>
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                className="shad-button_primary whitespace-nowrap"
+              >
+                Update Profile
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </div>
     </div>
   );
 };

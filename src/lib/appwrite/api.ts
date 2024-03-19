@@ -438,9 +438,8 @@ export async function getUserById(userId: string) {
   }
 }
 
-
-
 export async function updateUser(user: IUpdateUser) {
+  // Verify there is a new image
   const hasFileToUpdate = user.file.length > 0;
   
   try {
@@ -454,7 +453,7 @@ export async function updateUser(user: IUpdateUser) {
         const uploadedFile = await uploadFile(user.file[0]);
         if (!uploadedFile) throw Error;
 
-        // Get new file url
+        // Get the new file url from storage
         const fileUrl = getFilePreview(uploadedFile.$id);
         if (!fileUrl) {
           await deleteFile(uploadedFile.$id);
@@ -464,7 +463,7 @@ export async function updateUser(user: IUpdateUser) {
         image = { ...image, imageUrl: fileUrl, imageId: uploadedFile.$id };
       }
 
-      // Update user
+      // Update user in database
       const updatedUser = await databases.updateDocument(
         appwriteConfig.databaseId,
         appwriteConfig.userCollectionId,
