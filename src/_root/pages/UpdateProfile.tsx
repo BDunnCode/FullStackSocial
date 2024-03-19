@@ -13,15 +13,16 @@ import {
 } from "@/components/ui/form"
 import { useToast } from "@/components/ui/use-toast";
 // I want these turned into module style imports. Figure out why they won't come in.
-import ProfileUploader from "@/components/shared/ProfileUploader";
-import Loader from "@/components/shared/Loader";
+import { ProfileUploader } from "@/components/shared/ProfileUploader";
+import { Loader } from "@/components/shared/Loader";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+
 
 import { ProfileValidation } from "@/lib/validation";
 import { useUserContext } from "@/context/AuthContext";
 import { useGetUserById, useUpdateUser } from "@/lib/react-query/queriesAndMutations";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 
 const UpdateProfile = () => {
   const { toast } = useToast();
