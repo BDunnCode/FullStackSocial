@@ -1,6 +1,8 @@
 import { useUserContext } from "@/context/AuthContext";
 import { Link, useParams } from "react-router-dom";
 
+import { Tabs, TabsContent, TabsList, TabsTrigger, } from "@/components/ui/tabs";
+
 const Profile = () => {
   const { id } = useParams();
   const { user } = useUserContext();
@@ -30,7 +32,6 @@ const Profile = () => {
                 className="invert-white"
               />
             </Link>
-
           </div>
           <p className="text-[12px] text-light-3">@{user.username}</p>
           <div className="flex gap-10">
@@ -49,6 +50,24 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      <div>
+          <Tabs>
+            <TabsList>
+              <TabsTrigger value="posts">Posts</TabsTrigger>
+              <TabsTrigger value="liked">Liked</TabsTrigger>
+              <TabsTrigger value="saved">Saved</TabsTrigger>
+            </TabsList>
+            <TabsContent value="posts">
+              created
+            </TabsContent>
+            <TabsContent value="liked">
+              liked
+            </TabsContent>
+            <TabsContent value="saved">
+              saved
+            </TabsContent>
+          </Tabs>
+        </div>
     </div>
   )
 }
