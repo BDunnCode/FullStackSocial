@@ -35,7 +35,8 @@ export const Saved = () => {
             src="/assets/icons/saved.svg" 
             width={36}
             height={36}
-            alt="saved" 
+            alt="saved"
+            className="invert-white"
           />
           <h2 className="h3-bold md:h2-bold text-left w-full">Saved Posts</h2>
         </div>
