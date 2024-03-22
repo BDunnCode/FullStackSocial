@@ -1,14 +1,22 @@
 import { useUserContext } from "@/context/AuthContext";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger, } from "@/components/ui/tabs";
+import { getCurrentUserPostsById, getUserById } from "@/lib/appwrite/api";
+
 
 const Profile = () => {
   const { id } = useParams();
   const { user } = useUserContext();
+  const userPosts = getCurrentUserPostsById(user.id);
+  const currentUser = getUserById(id || "");
+  const location = useLocation();
 
-  console.log(id);
-  console.log(user);
+  // console.log("location variable contents", location);
+  // console.log("params which happen to be userid", id);
+  // console.log("the user from useUserContext()", user);
+  // console.log("the posts created by the user", userPosts);
+  // console.log("the return from getUserByID, using the params", currentUser);
 
   return (
     <div className="profile-container">
@@ -55,16 +63,12 @@ const Profile = () => {
             <TabsList>
               <TabsTrigger value="posts">Posts</TabsTrigger>
               <TabsTrigger value="liked">Liked</TabsTrigger>
-              <TabsTrigger value="saved">Saved</TabsTrigger>
             </TabsList>
             <TabsContent value="posts">
-              created
+              posts
             </TabsContent>
             <TabsContent value="liked">
               liked
-            </TabsContent>
-            <TabsContent value="saved">
-              saved
             </TabsContent>
           </Tabs>
         </div>
@@ -72,4 +76,4 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default Profile;
