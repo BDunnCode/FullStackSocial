@@ -2,15 +2,27 @@ import { useUserContext } from "@/context/AuthContext";
 import { Link, useLocation, useParams } from "react-router-dom";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger, } from "@/components/ui/tabs";
-import { getCurrentUserPostsById, getUserById } from "@/lib/appwrite/api";
+import { useGetUserById } from "@/lib/react-query/queriesAndMutations";
+
+interface StatBlockProps {
+  value: string | number;
+  label: string;
+}
+
+const StatBlock = ({ value, label }: StatBlockProps) => (
+  <div className="flex-center gap-2">
+    <p className="small-semibold lg:body-bold text-primary-500">{value}</p>
+    <p className="small-medium lg:base-medium text-light-2">{label}</p>
+  </div>
+)
 
 
 const Profile = () => {
   const { id } = useParams();
   const { user } = useUserContext();
-  const userPosts = getCurrentUserPostsById(user.id);
-  const currentUser = getUserById(id || "");
-  const location = useLocation();
+  const { pathname } = useLocation();
+
+  const { data: currentUser } = useGetUserById(id || "")
 
   // console.log("location variable contents", location);
   // console.log("params which happen to be userid", id);
@@ -23,7 +35,7 @@ const Profile = () => {
       <div className="profile-inner_container">
         <img 
           className="rounded-full"
-          src={user.imageUrl} // Add or placeholder image
+          src={user.imageUrl} // Add || placeholder image
           alt="image"
           height={100}
           width={100}
@@ -43,18 +55,9 @@ const Profile = () => {
           </div>
           <p className="text-[12px] text-light-3">@{user.username}</p>
           <div className="flex gap-10">
-            <div>
-              <p className="text-primary-500">100</p>
-              <p>posts</p>
-            </div>
-            <div>
-              <p className="text-primary-500">100</p>
-              <p>liked posts</p>
-            </div>
-            <div>
-              <p className="text-primary-500">100</p>
-              <p>saved posts</p>
-            </div>
+            <StatBlock value={currentUser?.posts.length} label="posts" />
+            <StatBlock value={20} label="Followers"/>
+            <StatBlock value={20} label="Following"/>
           </div>
         </div>
       </div>
