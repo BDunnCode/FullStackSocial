@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDeleteSavedPost, useGetCurrentUser, useLikePost, useSavePost } from "@/lib/react-query/queriesAndMutations";
 import { Models } from "appwrite"
-import { Loader } from "lucide-react";
+import { Loader } from "@/components/shared/Loader";
 
 import {checkIsLiked} from "@/lib/utils";
 

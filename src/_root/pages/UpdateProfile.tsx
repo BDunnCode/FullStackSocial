@@ -12,7 +12,8 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { useToast } from "@/components/ui/use-toast";
-// I want these turned into module style imports. Figure out why they won't come in.
+// I want these turned into module style imports from the same source to condense things. 
+// Each coming from @/components/shared, and @/components/ui all combind together into one line.
 import { ProfileUploader } from "@/components/shared/ProfileUploader";
 import { Loader } from "@/components/shared/Loader";
 import { Input } from "@/components/ui/input";
