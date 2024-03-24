@@ -2,6 +2,7 @@ import { Loader } from "@/components/shared/Loader";
 import { PostStats } from "@/components/shared/PostStats";
 import { Button } from "@/components/ui/button";
 import { useUserContext } from "@/context/AuthContext";
+import { getUserPostsByUserId } from "@/lib/appwrite/api";
 import { useGetPostById } from "@/lib/react-query/queriesAndMutations";
 import { formatDate } from "@/lib/utils";
 import { Link, useParams } from "react-router-dom";
@@ -10,6 +11,11 @@ const PostDetails = () => {
   const { id } = useParams()
   const { data: post, isPending } = useGetPostById(id || '')
   const { user } = useUserContext();
+
+
+  console.log(user.id)
+  const userPosts = getUserPostsByUserId(user.id);
+  console.log(userPosts);
 
   const handleDeletePost = () => {};
   
@@ -89,8 +95,14 @@ const PostDetails = () => {
           </div>
         </div>
       )}
+      <hr className="border w-full border-dark-4/80" />
+      
+      <h3 className="body-bold md:h3-bold w-full my-10">More Related Posts</h3>
+      <div>
+
+      </div>
     </div>
   )
-}
+};
 
-export default PostDetails
+export default PostDetails;

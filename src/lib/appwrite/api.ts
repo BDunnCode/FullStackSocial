@@ -443,6 +443,26 @@ export async function searchPosts(searchTerm: string) {
   }
 }
 
+export async function getUserPostsByUserId(userId: string) {
+  if (!userId) return;
+
+  try {
+    const userPosts = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      [Query.equal('creator', userId), Query.orderDesc("$createdAt")]
+    );
+
+    if (!userPosts) throw Error;
+
+    return userPosts;
+
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
 export async function getUserById(userId: string) {
   try {
     const user = await databases.getDocument(
@@ -454,6 +474,7 @@ export async function getUserById(userId: string) {
     if (!user) throw Error;
 
     return user;
+    
   } catch(error) {
     console.log(error)
   }
@@ -473,6 +494,7 @@ export async function updateUser(user: IUpdateUser) {
         // Upload new file to appwrite storage
         const uploadedFile = await uploadFile(user.file[0]);
         if (!uploadedFile) throw Error;
+
 
         // Get the new file url from storage
         const fileUrl = getFilePreview(uploadedFile.$id);
