@@ -17,6 +17,7 @@ import {
   getRecentPosts, 
   getTopUsers, 
   getUserById, 
+  getUserPostsByUserId, 
   getUsers,
   likePost, 
   savePost, 
@@ -184,6 +185,13 @@ export const useGetPostById = (postId: string) => {
     enabled: !!postId
   });
 };
+
+export const useGetUserPostsByUserId = (userId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USER_POSTS_BY_USER_ID, userId],
+    queryFn: () => getUserPostsByUserId(userId),
+  });
+}
 
 export const useUpdatePost = () => {
   const queryClient = useQueryClient();
