@@ -94,6 +94,6 @@ if(!posts)
       )}
     </div>
   )
-}
+};
 
-export default Explore
+export default Explore;
