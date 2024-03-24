@@ -190,8 +190,9 @@ export const useGetUserPostsByUserId = (userId: string) => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_USER_POSTS_BY_USER_ID, userId],
     queryFn: () => getUserPostsByUserId(userId),
+    enabled: !!userId
   });
-}
+};
 
 export const useUpdatePost = () => {
   const queryClient = useQueryClient();

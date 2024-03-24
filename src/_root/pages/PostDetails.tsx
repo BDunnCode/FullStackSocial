@@ -1,15 +1,18 @@
+import GridPostList from "@/components/shared/GridPostList";
 import { Loader } from "@/components/shared/Loader";
 import { PostStats } from "@/components/shared/PostStats";
 import { Button } from "@/components/ui/button";
 import { useUserContext } from "@/context/AuthContext";
-import { useGetPostById } from "@/lib/react-query/queriesAndMutations";
+import { useGetPostById, useGetUserPostsByUserId } from "@/lib/react-query/queriesAndMutations";
 import { formatDate } from "@/lib/utils";
 import { Link, useParams } from "react-router-dom";
 
 const PostDetails = () => {
-  const { id } = useParams()
-  const { data: post, isPending } = useGetPostById(id || '')
+  const { id } = useParams();
+  const { data: post, isPending } = useGetPostById(id || '');
   const { user } = useUserContext();
+
+  const {data: userPosts } = useGetUserPostsByUserId(user.id);
 
   const handleDeletePost = () => {};
   
@@ -93,7 +96,10 @@ const PostDetails = () => {
       
       <h3 className="body-bold md:h3-bold w-full my-10">More Related Posts</h3>
       <div>
-
+        {
+          userPosts && userPosts.documents && 
+          <GridPostList posts={userPosts.documents} showUser={false} showStats={false} />
+        }
       </div>
     </div>
   )
