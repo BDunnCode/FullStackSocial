@@ -9,7 +9,7 @@ type GridPostListProps = {
   showStats?: boolean; 
 }
 
-const GridPostList = ({ posts, showUser = true, showStats = true }: GridPostListProps) => {
+export const GridPostList = ({ posts, showUser = true, showStats = true }: GridPostListProps) => {
   const { user } = useUserContext();
   
   return (
