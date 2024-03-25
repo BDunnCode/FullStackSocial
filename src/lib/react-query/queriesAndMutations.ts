@@ -12,7 +12,6 @@ import {
   deleteSavedPost, 
   getCurrentUser, 
   getInfinitePosts, 
-  getInfiniteSavedPosts, 
   getPostById, 
   getRecentPosts, 
   getTopUsers, 
@@ -245,18 +244,4 @@ export const useUpdatePost = () => {
     });
   };
 
-  export const useGetInfiniteSavedPosts = () => {
-    return useInfiniteQuery({
-      queryKey: [QUERY_KEYS.GET_INFINITE_SAVED_POSTS],
-      queryFn: getInfiniteSavedPosts,
-      initialPageParam: 0,
-      getNextPageParam: (lastPage: any) => {
-        if (lastPage && lastPage.documents.length === 0) {
-          return null;
-        }
 
-        const lastId = lastPage.documents[lastPage.documents.length - 1].$id;
-        return lastId;
-      },
-    });
-  };

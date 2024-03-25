@@ -280,7 +280,7 @@ export async function savePost(postId: string, userId: string) {
   }
 }
 
-export async function getInfiniteSavedPosts({ pageParam }: { pageParam: number }) {
+export async function getInfiniteSavedPosts({ pageParam }: { pageParam: number }, userId: string) {
   const queries: any[] = [Query.orderDesc('$updatedAt'), Query.limit(9)]
 
   if(pageParam) {
@@ -290,7 +290,7 @@ export async function getInfiniteSavedPosts({ pageParam }: { pageParam: number }
   try {
     const savedPosts = await databases.listDocuments(
       appwriteConfig.databaseId,
-      appwriteConfig.postCollectionId,
+      appwriteConfig.savesCollectionId,
       queries
     )
 
