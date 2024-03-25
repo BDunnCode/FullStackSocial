@@ -280,7 +280,8 @@ export async function savePost(postId: string, userId: string) {
   }
 }
 
-export async function getInfiniteSavedPosts({ pageParam }: { pageParam: number }, userId: string) {
+// Pretty sure this doesn't work, isn't used, and can be deleted.
+export async function getInfiniteSavedPosts({ pageParam }: { pageParam: number }) {
   const queries: any[] = [Query.orderDesc('$updatedAt'), Query.limit(9)]
 
   if(pageParam) {
