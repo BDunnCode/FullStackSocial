@@ -45,13 +45,13 @@ export const Saved = () => {
           <GridPostList key={`page-${index}`} posts={item.documents} />
           ) : null
         ))}
-      </div>
 
       {hasNextPage && (
         <div ref={ref} className="mt-10">
           <Loader />
         </div>
       )}
+      </div>
     </div>
   )
 };
