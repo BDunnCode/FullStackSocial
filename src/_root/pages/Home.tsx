@@ -13,6 +13,8 @@ const Home = () => {
   const { ref, inView } = useInView();
   const { data: topUsers, isLoading: isTopUsersLoading, isError: isErrorTopUsers } = useGetTopUsers();
 
+  console.log(posts);
+
   useEffect(() => {
     if (inView && hasNextPage && !isFetching) {
       fetchNextPage();
@@ -40,7 +42,7 @@ const Home = () => {
           <ul className="flex flex-col flex-1 gap-9 w-full">
             {(posts?.pages || []).map((page) =>
               page?.documents.map((post: Models.Document) => (
-                <li key={`${post.id}`}>
+                <li key={`${post.$id}`}>
                   <PostCard post={post}  />
                 </li>
               ))
@@ -55,7 +57,6 @@ const Home = () => {
         <h3 className="h3-bold">Top Creators</h3>
           <ul className="grid grid-cols-2 grid-rows-4 gap-4 py-4">
             { isTopUsersLoading ? <Loader /> :
-
             topUsers?.documents.map((user) => (
               <li key={user.accountId}>
                 <CreatorCard 
@@ -67,8 +68,6 @@ const Home = () => {
             ))}
           </ul>
       </div>
-
-
     </div>
   );
 };
