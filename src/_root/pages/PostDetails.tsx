@@ -16,7 +16,7 @@ const PostDetails = () => {
 
   const postCreatorId = post?.creator.$id
 
-  console.log(postCreatorId)
+  console.log(post)
 
   const { data: userPosts } = useGetUserPostsByPostCreatorId(postCreatorId || '');
   const { mutate: deletePost } = useDeletePost();
@@ -28,9 +28,9 @@ const PostDetails = () => {
 
 
   const handleDeletePost = () => {
-    if (!id) return;
+    if (!id || !post) return;
 
-    deletePost({ postId: id, imageId: post?.imageId });
+    deletePost({ postId: id, imageId: post.imageId });
     navigate(-1);
   };
   
@@ -97,7 +97,7 @@ const PostDetails = () => {
                   post?.creator.$id && 'hidden'}`}
                 >
                   <img 
-                    src="/assets/icons/delete.svg"
+                    src={"/assets/icons/delete.svg"}
                     width={24}
                     height={24}
                     alt="delete"
