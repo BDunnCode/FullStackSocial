@@ -16,7 +16,7 @@ import {
   getRecentPosts, 
   getTopUsers, 
   getUserById, 
-  getUserPostsByUserId, 
+  getUserPostsByPostCreatorId, 
   getUsers,
   likePost, 
   savePost, 
@@ -185,11 +185,11 @@ export const useGetPostById = (postId: string) => {
   });
 };
 
-export const useGetUserPostsByUserId = (userId: string) => {
+export const useGetUserPostsByPostCreatorId = (postCreatorId: string) => {
   return useQuery({
-    queryKey: [QUERY_KEYS.GET_USER_POSTS_BY_USER_ID, userId],
-    queryFn: () => getUserPostsByUserId(userId),
-    enabled: !!userId
+    queryKey: [QUERY_KEYS.GET_USER_POSTS_BY_USER_ID, postCreatorId],
+    queryFn: () => getUserPostsByPostCreatorId(postCreatorId),
+    enabled: !!postCreatorId
   });
 };
 

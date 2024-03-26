@@ -444,14 +444,14 @@ export async function searchPosts(searchTerm: string) {
   }
 }
 
-export async function getUserPostsByUserId(userId: string) {
-  if (!userId) return;
+export async function getUserPostsByPostCreatorId(postCreatorId: string) {
+  if (!postCreatorId) return;
 
   try {
     const userPosts = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.postCollectionId,
-      [Query.equal('creator', userId), Query.orderDesc("$createdAt")]
+      [Query.equal('creator', postCreatorId), Query.orderDesc("$createdAt")]
     );
 
     if (!userPosts) throw Error;
