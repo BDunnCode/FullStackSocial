@@ -12,12 +12,11 @@ import {
   deleteSavedPost, 
   getCurrentUser, 
   getInfinitePosts, 
-  getInfiniteSavedPosts, 
   getPostById, 
   getRecentPosts, 
   getTopUsers, 
   getUserById, 
-  getUserPostsByUserId, 
+  getUserPostsByPostCreatorId, 
   getUsers,
   likePost, 
   savePost, 
@@ -186,11 +185,11 @@ export const useGetPostById = (postId: string) => {
   });
 };
 
-export const useGetUserPostsByUserId = (userId: string) => {
+export const useGetUserPostsByPostCreatorId = (postCreatorId: string) => {
   return useQuery({
-    queryKey: [QUERY_KEYS.GET_USER_POSTS_BY_USER_ID, userId],
-    queryFn: () => getUserPostsByUserId(userId),
-    enabled: !!userId
+    queryKey: [QUERY_KEYS.GET_USER_POSTS_BY_USER_ID, postCreatorId],
+    queryFn: () => getUserPostsByPostCreatorId(postCreatorId),
+    enabled: !!postCreatorId
   });
 };
 
@@ -211,8 +210,7 @@ export const useUpdatePost = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: ({ postId, imageId}: { postId: string, imageId:
-      string}) => deletePost(postId, imageId),
+      mutationFn: ({ postId, imageId }: { postId?: string; imageId: string}) => deletePost(postId, imageId),
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
@@ -245,18 +243,4 @@ export const useUpdatePost = () => {
     });
   };
 
-  export const useGetInfiniteSavedPosts = () => {
-    return useInfiniteQuery({
-      queryKey: [QUERY_KEYS.GET_INFINITE_SAVED_POSTS],
-      queryFn: getInfiniteSavedPosts,
-      initialPageParam: 0,
-      getNextPageParam: (lastPage: any) => {
-        if (lastPage && lastPage.documents.length === 0) {
-          return null;
-        }
 
-        const lastId = lastPage.documents[lastPage.documents.length - 1].$id;
-        return lastId;
-      },
-    });
-  };

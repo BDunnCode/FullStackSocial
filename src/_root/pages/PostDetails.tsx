@@ -3,7 +3,7 @@ import { Loader } from "@/components/shared/Loader";
 import { PostStats } from "@/components/shared/PostStats";
 import { Button } from "@/components/ui/button";
 import { useUserContext } from "@/context/AuthContext";
-import { useDeletePost, useGetPostById, useGetUserPostsByUserId } from "@/lib/react-query/queriesAndMutations";
+import { useDeletePost, useGetPostById, useGetUserPostsByPostCreatorId } from "@/lib/react-query/queriesAndMutations";
 import { formatDate } from "@/lib/utils";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
@@ -11,19 +11,26 @@ const PostDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { user } = useUserContext();
-
+  
   const { data: post, isPending } = useGetPostById(id || '');
-  const { data: userPosts } = useGetUserPostsByUserId(user.id);
+
+  const postCreatorId = post?.creator.$id
+
+  console.log(post)
+
+  const { data: userPosts } = useGetUserPostsByPostCreatorId(postCreatorId || '');
   const { mutate: deletePost } = useDeletePost();
 
-  const relatedPosts = userPosts?.documents.filter(( userPost ) => {
-    userPost.$id !== id;
-  })
+
+  const relatedPosts = userPosts?.documents.filter(
+    (post) => post.$id !== id);
+  
+
 
   const handleDeletePost = () => {
-    if (!id) return;
+    if (!id || !post) return;
 
-    deletePost({ postId: id, imageId: post?.imageId });
+    deletePost({ postId: id, imageId: post.imageId });
     navigate(-1);
   };
   
@@ -90,7 +97,7 @@ const PostDetails = () => {
                   post?.creator.$id && 'hidden'}`}
                 >
                   <img 
-                    src="/assets/icons/delete.svg"
+                    src={"/assets/icons/delete.svg"}
                     width={24}
                     height={24}
                     alt="delete"

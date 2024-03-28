@@ -1,31 +1,20 @@
-import GridPostList from "@/components/shared/GridPostList";
+import { Models } from "appwrite";
+
+import { useGetCurrentUser } from "@/lib/react-query/queriesAndMutations";
+import { GridPostList } from "@/components/shared/GridPostList";
 import { Loader } from "@/components/shared/Loader";
-import { useGetInfiniteSavedPosts } from "@/lib/react-query/queriesAndMutations";
-import { useEffect } from "react";
-import { useInView } from "react-intersection-observer";
+
 
 
 export const Saved = () => {
-  // For getting infinite posts
-  const { ref, inView } = useInView();
+  const { data: currentUser } = useGetCurrentUser();
 
-  // I took the destructured isFetching and isLoading out of destructuring block below so hosting would continue until
-  // I come through and polish more thoroughly. Put them back in.
-  const { data: savedPosts, fetchNextPage, hasNextPage, isError: isErrorSavedPosts } = useGetInfiniteSavedPosts();
-
-  useEffect(() => {
-    if(inView) {
-      fetchNextPage();
-    }
-  }, [inView]); 
-
-  if (isErrorSavedPosts) {
-    return (
-        <div className="common-container">
-          <p className="body-medium text-light-1">Sorry, something went wrong.</p>
-        </div>
-    )
-  };
+  const savedPosts = currentUser?.save.map((savedPost: Models.Document) => ({
+    ...savedPost.post,
+    creator: {
+      imageUrl: currentUser.imageUrl,
+    },
+  }))
 
   return (
     <div className="flex flex-1">
@@ -40,20 +29,21 @@ export const Saved = () => {
           />
           <h2 className="h3-bold md:h2-bold text-left w-full">Saved Posts</h2>
         </div>
-        {savedPosts?.pages.map((item, index) => (
-          item ? (
-          <GridPostList key={`page-${index}`} posts={item.documents} />
-          ) : null
-        ))}
-      </div>
 
-      {hasNextPage && (
-        <div ref={ref} className="mt-10">
+        {!currentUser ? (
           <Loader />
-        </div>
-      )}
+        ) : (
+          <ul className="w-full flex justify-center max-w-5xl gap-9">
+            {savedPosts.length === 0 ? (
+              <p className="text-light-4">No Saved Posts</p>
+            ) : (
+              <GridPostList posts={savedPosts} showStats={false} />
+            )}
+          </ul>
+        )}
+      </div>
     </div>
-  )
+  );
 };
 
-export default Saved
+export default Saved;

@@ -280,6 +280,7 @@ export async function savePost(postId: string, userId: string) {
   }
 }
 
+// Pretty sure this doesn't work, isn't used, and can be deleted.
 export async function getInfiniteSavedPosts({ pageParam }: { pageParam: number }) {
   const queries: any[] = [Query.orderDesc('$updatedAt'), Query.limit(9)]
 
@@ -290,7 +291,7 @@ export async function getInfiniteSavedPosts({ pageParam }: { pageParam: number }
   try {
     const savedPosts = await databases.listDocuments(
       appwriteConfig.databaseId,
-      appwriteConfig.postCollectionId,
+      appwriteConfig.savesCollectionId,
       queries
     )
 
@@ -387,17 +388,19 @@ export async function updatePost(post: IUpdatePost) {
   }
 }
 
-export async function deletePost(postId: string, imageId: string) {
-  if(!postId || !imageId) throw Error;
+export async function deletePost(postId?: string, imageId?: string) {
+  if(!postId || !imageId) return;
 
   try {
-    await databases.deleteDocument(
+    const statusCode = await databases.deleteDocument(
       appwriteConfig.databaseId,
       appwriteConfig.postCollectionId,
       postId
-    )
+    );
+
+    if (!statusCode) throw Error;
     
-    return { status: 'ok'}
+    return { status: 'ok'};
 
   } catch (error) {
     console.log(error)
@@ -443,14 +446,14 @@ export async function searchPosts(searchTerm: string) {
   }
 }
 
-export async function getUserPostsByUserId(userId: string) {
-  if (!userId) return;
+export async function getUserPostsByPostCreatorId(postCreatorId: string) {
+  if (!postCreatorId) return;
 
   try {
     const userPosts = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.postCollectionId,
-      [Query.equal('creator', userId), Query.orderDesc("$createdAt")]
+      [Query.equal('creator', postCreatorId), Query.orderDesc("$createdAt")]
     );
 
     if (!userPosts) throw Error;
