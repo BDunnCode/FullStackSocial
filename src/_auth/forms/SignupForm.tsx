@@ -71,11 +71,18 @@ const SignupForm = () => {
 
   return (
     <Form {...form}>
-      <div className="sm:w-420 flex-center flex-col">
-        <img src="/assets/images/zoosocialauthpageslogo.png" alt="logo"/>
+      <div className="sm:w-420 flex-col overflow-y-auto">
+        <div className="flex-center">
+          <img 
+            src="/assets/images/zoosocialauthpageslogo.png" 
+            alt="logo"
+            height={150}
+            width={150}
+          />
+        </div>
 
-        <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">Create a new account</h2>
-        <p className="text-light-3 small-medium md:base-regular">To use Snapgram, please enter your details</p>
+        <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12 text-center">Create a new account</h2>
+        <p className="text-light-3 small-medium md:base-regular text-center">To use Zoo Social, please enter your details</p>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5 w-full mt-4">
           <FormField
