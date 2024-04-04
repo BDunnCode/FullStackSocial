@@ -18,7 +18,7 @@ const CreatorCard = ({userProfileImg, name, username}: CreatorCardProps) => {
           className="rounded-full"    
         />
         <div className="flex flex-col gap-1 items-center">
-          <h4 className="font-bold">{name}</h4>
+          <h4 className="font-bold tracking-tight">{name}</h4>
           <p className="text-[12px] text-light-3">@{username}</p>
         </div>
         <Button
