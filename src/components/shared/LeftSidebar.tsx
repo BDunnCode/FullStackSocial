@@ -24,7 +24,7 @@ const LeftSidebar = () => {
   return (
     <nav className="leftsidebar">
       <div className="flex flex-col gap-8">
-        <Link to="/" className="flex gap-3 items-center ml-12 -mb-9 -mt-4">
+        <Link to="/" className="flex justify-center -my-8">
           <img 
             src="/assets/images/zoosocialleftsidebarlogo.png"
             alt="logo"
