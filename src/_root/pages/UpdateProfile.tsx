@@ -181,7 +181,7 @@ const UpdateProfile = () => {
               </Button>
               <Button
                 type="submit"
-                className="shad-button_primary whitespace-nowrap"
+                className="shad-button_primary whitespace-nowrap h-12"
               >
                 Update Profile
               </Button>
